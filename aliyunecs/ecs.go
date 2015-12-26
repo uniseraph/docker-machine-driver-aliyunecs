@@ -8,7 +8,7 @@ import (
 
 	"github.com/denverdino/aliyungo/common"
 	"github.com/denverdino/aliyungo/ecs"
-	"github.com/denverdino/aliyungo/slb"
+//	"github.com/denverdino/aliyungo/slb"
 
 	"io"
 	"io/ioutil"
@@ -68,8 +68,8 @@ type Driver struct {
 	PrivateIPOnly           bool
 	InternetMaxBandwidthOut int
 	RouteCIDR               string
-	SLBID                   string
-	SLBIPAddress            string
+//	SLBID                   string
+//	SLBIPAddress            string
 	Tags                    map[string]string
 	DiskSize                int
 	UpgradeKernel           bool
@@ -80,7 +80,7 @@ type Driver struct {
 	SystemDiskCategory      ecs.DiskCategory
 
 	client    *ecs.Client
-	slbClient *slb.Client
+//	slbClient *slb.Client
 }
 
 func (d *Driver) GetCreateFlags() []mcnflag.Flag {
@@ -171,11 +171,11 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Usage:  "Docker bridge CIDR for route entry in VPC",
 			EnvVar: "ECS_ROUTE_CIDR",
 		},
-		mcnflag.StringFlag{
-			Name:   "aliyunecs-slb-id",
-			Usage:  "SLB id for instance association",
-			EnvVar: "ECS_SLB_ID",
-		},
+//		mcnflag.StringFlag{
+//			Name:   "aliyunecs-slb-id",
+//			Usage:  "SLB id for instance association",
+//			EnvVar: "ECS_SLB_ID",
+//		},
 		mcnflag.StringSliceFlag{
 			Name:   "aliyunecs-tag",
 			Usage:  "Tags for instance",
@@ -218,7 +218,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 	}
 }
 
-func NewDriver(hostName, storePath string) drivers.Driver {
+func NewDriver(hostName, storePath string) *Driver {
 	id := generateId()
 	return &Driver{
 		Id: id,
@@ -298,7 +298,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	d.PrivateIPOnly = flags.Bool("aliyunecs-private-address-only")
 	d.InternetMaxBandwidthOut = flags.Int("aliyunecs-internet-max-bandwidth")
 	d.RouteCIDR = flags.String("aliyunecs-route-cidr")
-	d.SLBID = flags.String("aliyunecs-slb-id")
+//	d.SLBID = flags.String("aliyunecs-slb-id")
 	d.DiskSize = flags.Int("aliyunecs-disk-size")
 	d.DiskCategory = ecs.DiskCategory(flags.String("aliyunecs-disk-category"))
 	tags := flags.StringSlice("aliyunecs-tag")
@@ -377,9 +377,9 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	}
 
 	if d.APIEndpoint != "" {
-		if d.SLBID != "" {
-			return fmt.Errorf("Unsupport 'aliyunecs-slb-id' flag when the custom API endpoint is specified")
-		}
+//		if d.SLBID != "" {
+//			return fmt.Errorf("Unsupport 'aliyunecs-slb-id' flag when the custom API endpoint is specified")
+//		}
 	}
 	return nil
 }
@@ -390,13 +390,13 @@ func (d *Driver) DriverName() string {
 
 func (d *Driver) checkPrereqs() error {
 
-	if d.SLBID != "" {
-		loadBalancer, err := d.getSLBClient().DescribeLoadBalancerAttribute(d.SLBID)
-		if err != nil {
-			return fmt.Errorf("%s | Invalid --aliyunecs-slb-id: %v", d.MachineName, err)
-		}
-		d.SLBIPAddress = loadBalancer.Address
-	}
+//	if d.SLBID != "" {
+//		loadBalancer, err := d.getSLBClient().DescribeLoadBalancerAttribute(d.SLBID)
+//		if err != nil {
+//			return fmt.Errorf("%s | Invalid --aliyunecs-slb-id: %v", d.MachineName, err)
+//		}
+//		d.SLBIPAddress = loadBalancer.Address
+//	}
 	return nil
 }
 
@@ -611,30 +611,30 @@ func (d *Driver) configNetwork(vpcId string, instanceId string) error {
 		}
 	}
 
-	if d.SLBID != "" { // Add the instance to SLB
-		log.Infof("%s | Adding instance %s to SLB %s ...", d.MachineName, instanceId, d.SLBID)
-		count := 0
-		for {
-			backendServers := []slb.BackendServerType{
-				slb.BackendServerType{
-					ServerId: instanceId,
-					Weight:   100,
-				},
-			}
-			_, err = d.getSLBClient().AddBackendServers(d.SLBID, backendServers)
-			if err != nil {
-				log.Errorf("%s | Failed to add instance to SLB: %v", d.MachineName, err)
-				count++
-				if count <= maxRetry {
-					time.Sleep(time.Duration(5000+mrand.Int63n(2000)) * time.Millisecond)
-					continue
-				} else {
-					return fmt.Errorf("%s | Failed to delete route entry after %d times", d.MachineName, maxRetry)
-				}
-			}
-			break
-		}
-	}
+//	if d.SLBID != "" { // Add the instance to SLB
+//		log.Infof("%s | Adding instance %s to SLB %s ...", d.MachineName, instanceId, d.SLBID)
+//		count := 0
+//		for {
+//			backendServers := []slb.BackendServerType{
+//				slb.BackendServerType{
+//					ServerId: instanceId,
+//					Weight:   100,
+//				},
+//			}
+//			_, err = d.getSLBClient().AddBackendServers(d.SLBID, backendServers)
+//			if err != nil {
+//				log.Errorf("%s | Failed to add instance to SLB: %v", d.MachineName, err)
+//				count++
+//				if count <= maxRetry {
+//					time.Sleep(time.Duration(5000+mrand.Int63n(2000)) * time.Millisecond)
+//					continue
+//				} else {
+//					return fmt.Errorf("%s | Failed to delete route entry after %d times", d.MachineName, maxRetry)
+//				}
+//			}
+//			break
+//		}
+//	}
 	return nil
 }
 
@@ -922,14 +922,14 @@ func (d *Driver) Kill() error {
 	return nil
 }
 
-func (d *Driver) getSLBClient() *slb.Client {
-	if d.slbClient == nil {
-		client := slb.NewClient(d.AccessKey, d.SecretKey)
-		client.SetDebug(false)
-		d.slbClient = client
-	}
-	return d.slbClient
-}
+//func (d *Driver) getSLBClient() *slb.Client {
+//	if d.slbClient == nil {
+//		client := slb.NewClient(d.AccessKey, d.SecretKey)
+//		client.SetDebug(false)
+//		d.slbClient = client
+//	}
+//	return d.slbClient
+//}
 
 func (d *Driver) getClient() *ecs.Client {
 	if d.client == nil {
