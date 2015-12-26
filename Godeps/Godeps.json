@@ -1,0 +1,70 @@
+{
+	"ImportPath": "github.com/uniseraph/docker-machine-driver-aliyunecs",
+	"GoVersion": "go1.5.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/denverdino/aliyungo/common",
+			"Rev": "f192209bcca7a2221ea0b100bf4569f484654d43"
+		},
+		{
+			"ImportPath": "github.com/denverdino/aliyungo/ecs",
+			"Rev": "f192209bcca7a2221ea0b100bf4569f484654d43"
+		},
+		{
+			"ImportPath": "github.com/denverdino/aliyungo/slb",
+			"Rev": "f192209bcca7a2221ea0b100bf4569f484654d43"
+		},
+		{
+			"ImportPath": "github.com/denverdino/aliyungo/util",
+			"Rev": "f192209bcca7a2221ea0b100bf4569f484654d43"
+		},
+		{
+			"ImportPath": "github.com/docker/docker/pkg/term",
+			"Comment": "v1.4.1-8552-g61a9441",
+			"Rev": "61a94411b5b4c8527c8844ed58d74f9c52601b92"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/drivers",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/log",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/mcnflag",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/mcnutils",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/ssh",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/state",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "github.com/docker/machine/libmachine/version",
+			"Comment": "v0.5.4-106-gc80906a",
+			"Rev": "c80906a5437b500331d6b9c9dc4c31b7a2728e28"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/curve25519",
+			"Rev": "f18420efc3b4f8e9f3d51f6bd2476e92c46260e9"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/ssh",
+			"Rev": "f18420efc3b4f8e9f3d51f6bd2476e92c46260e9"
+		}
+	]
+}
